@@ -1,6 +1,6 @@
 # recipe-finder
 
-A Clojure library for searching for recipes
+A Clojure project for searching through recipes
 
 ## Setup
 
