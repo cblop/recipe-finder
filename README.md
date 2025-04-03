@@ -59,4 +59,4 @@ The `search/search` function returns a vector of document ids. These can then be
  :method "Cook the potatoes and leeks"}
 ```
 
- `search/get-recipes` is a convenience function to search for a recipe then render its content.
+ `search/get-recipes` is a convenience function to search for recipes then return their contents in a vector.
