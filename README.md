@@ -1,44 +1,62 @@
 # recipe-finder
 
-FIXME: description
+A Clojure library for searching for recipes
 
-## Installation
+## Setup
 
-Download from http://example.com/FIXME.
+The recipe data isn't included in this repo, so please extract all the recipe text files to this directory:
+
+`/resources/recipes`
 
 ## Usage
 
-FIXME: explanation
+Rather than running from the command line and waiting for the JVM to start up each time, I've designed this code to be run from the REPL.
 
-    $ java -jar recipe-finder-0.1.0-standalone.jar [args]
+Open up `/src/recipe_finder/repl.clj` and evaluate the code one line at a time to run some examples
 
-## Options
+## Namespaces
 
-FIXME: listing of options this app accepts.
+### read-files
+`read-files`: use `get-recipe-data` to read all files from the `/resources/recipes` directory into a map in this format:
 
-## Examples
+``` clojure
+{"potato-and-leek-pie" [{:section :title :text "Potato and leek pie"}
+                        {:section :introduction "A delicious pie"}
+                        {:section :ingredients :text "Potatoes and leeks"}
+                        {:section :method :text "Cook the potatoes and leeks"}]
+ "cottage-pie"         [{:section :title :text "Cottage pie"}
+                        {:section :introduction "A delicious pie"}
+                        {:section :ingredients :text "Beef and potatoes"}
+                        {:section :method :text "Cook the beef and potatoes"}]}
+```
 
-...
+### tokenise
+`tokenise`: `normalised-tokens` converts strings into vectors of tokens, and normalises by converting to lowercase and removing non-alphabetical characters
 
-### Bugs
+``` clojure
+"A delicious potato pie for 3!" -> ["delicious" "potato" "pie"]
+```
 
-...
+### index
+`index`: `make-index` creates an inverted index used to find the documents a token (search term) appears in, and how relevant each document is.
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+The relevance is calculated using Term Frequency-Inverse Document Frequency (TF-IDF), multiplied by section weights that prioritise the recipe title and ingredients. (see `calculate-document-score` in this namespace).
 
-## License
+The inverted index has this format, with search terms as keys mapping to maps with document-ids as keys and relevance scores as values:
 
-Copyright © 2025 FIXME
+``` clojure
+{"potato" {"leek-and-potato-soup" 1.5
+           "potato-quiche" 1.2}
+ "broccoli" {"broccoli-stilton-soup" 1.5}}
+```
+### search
+`search`: the `search` function returns a vector of document ids. These can then be passed to `render-recipe` to return the full text of a recipe in this format:
 
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0.
+``` clojure
+{:title "Potato and leek pie"
+ :introduction "A delicious pie"
+ :ingredients "Potatoes and leeks"
+ :method "Cook the potatoes and leeks"}
+```
 
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+ `get-recipes` is a convenience function to search for a recipe then render its content.
