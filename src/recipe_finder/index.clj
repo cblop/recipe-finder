@@ -49,17 +49,18 @@
                               token-frequencies (frequencies section-tokens)
                               section-token-count (count section-tokens)
                               token-maps (for [token (distinct section-tokens)]
-                                           {:token token :doc doc-id :score
-                                            (calculate-document-score {:token token
-                                                                       :token-frequency (get token-frequencies token)
-                                                                       :token-count section-token-count
-                                                                       :total-recipe-section-count total-recipe-section-count
-                                                                       :total-term-frequencies total-term-frequencies
-                                                                       :section section})})]
+                                           {:token token :doc doc-id
+                                            :score (calculate-document-score {:token token
+                                                                              :token-frequency (get token-frequencies token)
+                                                                              :token-count section-token-count
+                                                                              :total-recipe-section-count total-recipe-section-count
+                                                                              :total-term-frequencies total-term-frequencies
+                                                                              :section section})})]
                           (apply conj acc token-maps)))
                       []
                       entry)))
-         ;; then combine them into the inverted index with tokens as kes and values as {document-id score}
+         ;; then combine them into the inverted index with tokens as keys and values as {document-id score}
+         ;; this adds up the individual section scores to create a total document relevance score
          (r/reduce (fn [acc {:keys [token doc score]}]
                      (update-in acc [token doc] #(if %
                                                    (+ % score)
