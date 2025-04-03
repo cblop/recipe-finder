@@ -40,7 +40,7 @@ Use `read-files/get-recipe-data` to read all files from the `/resources/recipes`
 ### index
 `index/make-index` creates an inverted index used to find the documents a token (search term) appears in, and how relevant each document is.
 
-The relevance is calculated using Term Frequency-Inverse Document Frequency (TF-IDF), multiplied by section weights that prioritise the recipe title and ingredients. (see `index/calculate-document-score` in this namespace).
+The relevance is calculated using [Term Frequency-Inverse Document Frequency](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (TF-IDF), multiplied by section weights that prioritise the recipe title and ingredients. (see `index/calculate-document-score` in this namespace).
 
 The inverted index has this format, with search terms as keys mapping to maps with document-ids as keys and relevance scores as values:
 
