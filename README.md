@@ -50,7 +50,7 @@ The inverted index has this format, with search terms as keys mapping to maps wi
  "broccoli" {"broccoli-stilton-soup" 1.5}}
 ```
 ### search
-`The `search/search` function returns a vector of document ids. These can then be passed to `search/render-recipe` to return the full text of a recipe in this format:
+The `search/search` function returns a vector of document ids. These can then be passed to `search/render-recipe` to return the full text of a recipe in this format:
 
 ``` clojure
 {:title "Potato and leek pie"
