@@ -17,7 +17,7 @@ Open up `/src/recipe_finder/repl.clj` and evaluate the code one line at a time t
 ## Namespaces
 
 ### read-files
-`read-files`: use `get-recipe-data` to read all files from the `/resources/recipes` directory into a map in this format:
+Use `read-files/get-recipe-data` to read all files from the `/resources/recipes` directory into a map in this format:
 
 ``` clojure
 {"potato-and-leek-pie" [{:section :title :text "Potato and leek pie"}
@@ -31,16 +31,16 @@ Open up `/src/recipe_finder/repl.clj` and evaluate the code one line at a time t
 ```
 
 ### tokenise
-`tokenise`: `normalised-tokens` converts strings into vectors of tokens, and normalises by converting to lowercase and removing non-alphabetical characters
+`tokenise/normalised-tokens` converts strings into vectors of tokens, and normalises by converting to lowercase and removing non-alphabetical characters
 
 ``` clojure
 "A delicious potato pie for 3!" -> ["delicious" "potato" "pie"]
 ```
 
 ### index
-`index`: `make-index` creates an inverted index used to find the documents a token (search term) appears in, and how relevant each document is.
+`index/make-index` creates an inverted index used to find the documents a token (search term) appears in, and how relevant each document is.
 
-The relevance is calculated using Term Frequency-Inverse Document Frequency (TF-IDF), multiplied by section weights that prioritise the recipe title and ingredients. (see `calculate-document-score` in this namespace).
+The relevance is calculated using Term Frequency-Inverse Document Frequency (TF-IDF), multiplied by section weights that prioritise the recipe title and ingredients. (see `index/calculate-document-score` in this namespace).
 
 The inverted index has this format, with search terms as keys mapping to maps with document-ids as keys and relevance scores as values:
 
@@ -50,7 +50,7 @@ The inverted index has this format, with search terms as keys mapping to maps wi
  "broccoli" {"broccoli-stilton-soup" 1.5}}
 ```
 ### search
-`search`: the `search` function returns a vector of document ids. These can then be passed to `render-recipe` to return the full text of a recipe in this format:
+`The `search/search` function returns a vector of document ids. These can then be passed to `search/render-recipe` to return the full text of a recipe in this format:
 
 ``` clojure
 {:title "Potato and leek pie"
@@ -59,4 +59,4 @@ The inverted index has this format, with search terms as keys mapping to maps wi
  :method "Cook the potatoes and leeks"}
 ```
 
- `get-recipes` is a convenience function to search for a recipe then render its content.
+ `search/get-recipes` is a convenience function to search for a recipe then render its content.
