@@ -19,11 +19,11 @@
  (search recipe-index "broccoli stilton soup"))
 
 (time
- (search recipe-index "garlic potatoes"))
+ (search recipe-index "cabbage"))
 
 ;; To get the full recipe data, call get-recipes with the index and data instead:
 (time
  (get-recipes recipe-index recipe-data "broccoli stilton soup"))
 
 (time
- (get-recipes recipe-index recipe-data "garlic potatoes"))
+ (get-recipes recipe-index recipe-data "cabbage"))
